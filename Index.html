@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Character Input</title>
+    <link rel="stylesheet" href="Arrows.css">
+    <script>
+        const characters = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", ".", "?", "!", ",", ":", " "];
+        let currentIndex = 0;
+        let textContents = "";
+        let capsLock = false;
+        
+        function updateDisplay() {
+            let char = characters[currentIndex];
+            if (capsLock && currentIndex < 26) {
+                char = char.toUpperCase();
+            }
+            document.getElementById("currentChar").textContent = char;
+        }
+
+        function moveLeft() {
+            currentIndex = (currentIndex - 1 + characters.length) % characters.length;
+            updateDisplay();
+        }
+
+        function moveRight() {
+            currentIndex = (currentIndex + 1) % characters.length;
+            updateDisplay();
+        }
+
+        function addCharacter() {
+            let char = characters[currentIndex];
+            if (capsLock && currentIndex < 26) {
+                char = char.toUpperCase();
+            }
+            textContents += char;
+            document.getElementById("outputP").textContent = textContents || "[Empty]";
+        }
+
+        function removeText() {
+            if (textContents.length > 0) {
+                textContents = textContents.substring(0, textContents.length-1);
+            }
+            document.getElementById("outputP").textContent = textContents || "[Empty]";
+        }
+
+        function toggleCapsLock() {
+            capsLock = !capsLock;
+            updateDisplay();
+        }
+        
+        // Initialize display
+        updateDisplay();
+    </script>
+</head>
+
+<body style="background-color: rgb(33, 33, 33);">
+    <div class="output">
+        <p id="outputP">[Empty]</p>
+        <p id="currentChar">a</p>
+    </div>
+
+    <div class="controls">
+        <div class="button-row">
+            <button class="button-left" onclick="moveLeft()">←</button>
+            <button class="button-right" onclick="moveRight()">→</button>
+        </div>
+        <div class="button-row">
+            <button class="button-add" onclick="addCharacter()">Add</button>
+            <button class="button-capsLock" onclick="toggleCapsLock()">
+                <img src="CapsLock.png" style="width: 2.5em; height: 2.5em;"></img>
+            </button>
+            <button class="button-backspace" onclick="removeText()">⌫</button>
+        </div>
+    </div>
+</body>
+</html>
